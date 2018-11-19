@@ -1,9 +1,8 @@
 import pygame
-from Animations.secretAgent import SecretAgent
 from Maps.map import Map
 from Menu.mainMenu import MainMenu
 
-SOURCE_PICTURE = "Properties/agent_sprites.png"
+SOURCE_PICTURE = "Properties/SecretAgent.png"
 SIDEBAR_PICTURE = "Properties/Sidebar.png"
 TEST_MAP = "Properties/map2.csv"
 MENU_FILE = "Properties/menu.csv"

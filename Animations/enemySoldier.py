@@ -1,5 +1,5 @@
 import pygame
-from Animations.stripAnimObject import StripAnimObject
+from Animations.stripAnimObject import AnimationObject
 from Animations.projectile import Projectile
 
 
@@ -8,16 +8,16 @@ class EnemySoldier(object):
         self.position = (x, y)
         self.level = level
         self.filename = filename
-        self.level_one_left_anim = StripAnimObject(self.filename, 320, 224, 4)
-        self.level_one_right_anim = StripAnimObject(self.filename, 320, 208, 4)
-        self.level_two_left_anim = StripAnimObject(self.filename, 320, 256, 4)
-        self.level_two_right_anim = StripAnimObject(self.filename, 320, 240, 4)
-        self.level_three_left_anim = StripAnimObject(self.filename, 320, 288, 4)
-        self.level_three_right_anim = StripAnimObject(self.filename, 320, 272, 4)
-        self.level_four_left_anim = StripAnimObject(self.filename, 320, 320, 4)
-        self.level_four_right_anim = StripAnimObject(self.filename, 320, 304, 4)
-        self.level_five_left_anim = StripAnimObject(self.filename, 320, 352, 4)
-        self.level_five_right_anim = StripAnimObject(self.filename, 320, 336, 4)
+        self.level_one_left_anim = AnimationObject(self.filename, 320, 224, 4)
+        self.level_one_right_anim = AnimationObject(self.filename, 320, 208, 4)
+        self.level_two_left_anim = AnimationObject(self.filename, 320, 256, 4)
+        self.level_two_right_anim = AnimationObject(self.filename, 320, 240, 4)
+        self.level_three_left_anim = AnimationObject(self.filename, 320, 288, 4)
+        self.level_three_right_anim = AnimationObject(self.filename, 320, 272, 4)
+        self.level_four_left_anim = AnimationObject(self.filename, 320, 320, 4)
+        self.level_four_right_anim = AnimationObject(self.filename, 320, 304, 4)
+        self.level_five_left_anim = AnimationObject(self.filename, 320, 352, 4)
+        self.level_five_right_anim = AnimationObject(self.filename, 320, 336, 4)
         self.direction = -1
         self.path_length = 50
         self.moved = 0
@@ -79,7 +79,7 @@ class EnemySoldier(object):
 
     def get_projectile_animation(self):
         if self.level == 4 or self.level == 5:
-            return StripAnimObject(self.filename, 96, 144, 2), (self.direction, 0)
+            return AnimationObject(self.filename, 96, 144, 2), (self.direction, 0)
         else:
             return None, None
 

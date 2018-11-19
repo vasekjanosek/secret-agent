@@ -4,7 +4,11 @@ from Maps.dynamicMapPart import DynamicMapPart
 from Animations.enemySoldier import EnemySoldier
 
 
-class Map(object):            
+# represents Base/Level map
+class Map(object):
+
+    # img_filename - grapi
+    # map_filename - map definition
     def __init__(self, img_filename, map_filename):
         self.img_filename = img_filename
         self.map_filename = map_filename

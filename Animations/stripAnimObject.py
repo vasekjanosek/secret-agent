@@ -7,12 +7,12 @@ PIXEL_SIZE = 16
 
 
 # represents one animation object
-# x - x coordinates in image
-# y - y coordinates in image
-# count_to_right - number of sprites creating animation object
 class AnimationObject(object):
 
     # initialization of AnimationObject
+    # x - x coordinates in image
+    # y - y coordinates in image
+    # count_to_right - number of sprites creating animation object
     def __init__(self, filename, x, y, count_to_right):
 
         self.count_to_right = count_to_right

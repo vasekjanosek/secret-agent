@@ -1,21 +1,25 @@
 import pygame, sys, threading, time
-from Animations.stripAnimObject import StripAnimObject
+from Animations.stripAnimObject import AnimationObject
 
 DEFAULT_VELOCITY = 8
 FLOOR_POSITION = 160
 START_POSITION = (208, 160)
+SOURCE_PICTURE = "Properties/agent_sprites.png"
 
 
 # represent secret agent
 class SecretAgent(object):
 
-    def __init__(self, filename):
-        self.filename = filename
-        # position of agent in image
-        self.x = 256
-        self.y = 208
-        # number of frames taken from image to sprite
-        self.countToRight = 4
+    def __init__(self, start_position):
+        # sprites definition
+        self.leftDirectionSprite = None
+        self.rightDirectionSprite = None
+        self.jumpSprite = None
+        self.deathSprite = None
+
+        # load sprites
+        self.load_agent()
+
         # should he shoot
         self.shoot = False
         # direction of agent
@@ -26,22 +30,12 @@ class SecretAgent(object):
         # is he moving
         self.move = False
         # start position of agent
-        self.position = START_POSITION
+        self.position = start_position
         # jump velocity(speed)
         self.velocity = DEFAULT_VELOCITY
         self.mass = 2
         # gravity
-        self.gravity = 0.8
-        self.F = 0
         self.onGround = True
-        # borders of picture to calculate collision
-        self.X_BORDER_COLLISION = 28
-        self.Y_BORDER_COLLISION = 32
-        # load sprites from image
-        self.leftDirection = StripAnimObject(self.filename, self.x, self.y + 16, self.countToRight)
-        self.rightDirection = StripAnimObject(self.filename, self.x, self.y, self.countToRight)
-        self.jumpSprite = StripAnimObject(self.filename, self.x, self.y + 48, self.countToRight - 2)
-        self.deathAnim = StripAnimObject(self.filename, self.x + 32, self.y + 48, self.countToRight - 2)
 
         # load special images
         sidebarImgSource = pygame.image.load("Properties/Sidebar.png")
@@ -59,14 +53,20 @@ class SecretAgent(object):
         self.death_anim_speed = 5
         self.death_path = 0
         self.return_to_menu = False
-        
+
+    def load_agent(self):
+        self.leftDirectionSprite = AnimationObject(SOURCE_PICTURE, 0, 16, 4)
+        self.rightDirectionSprite = AnimationObject(SOURCE_PICTURE, 0, 0, 4)
+        self.jumpSprite = AnimationObject(SOURCE_PICTURE, 0, 48, 2)
+        self.deathSprite = AnimationObject(SOURCE_PICTURE, 32, 48, 2)
+
     def draw(self, screen, display_size):
-        img = self.leftDirection.images[0]
+        img = self.leftDirectionSprite.images[0]
         if self.lives == 0:
             self.death_path += 1
             if self.death_path > self.death_anim_speed:
                 self.death_path = 0
-            img = self.deathAnim.images[self.deathAnim.next(self.death_path%self.death_anim_speed)]
+            img = self.deathSprite.images[self.deathSprite.next(self.death_path%self.death_anim_speed)]
         elif self.isJumping:
             if self.direction == -1:
                 img = self.jumpSprite.images[1]
@@ -79,14 +79,14 @@ class SecretAgent(object):
                 img = self.jumpSprite.images[0]
         elif self.move:
             if self.direction == -1:
-                img = self.leftDirection.images[self.leftDirection.next()]
+                img = self.leftDirectionSprite.images[self.leftDirectionSprite.next()]
             else:
-                img = self.rightDirection.images[self.rightDirection.next()]
+                img = self.rightDirectionSprite.images[self.rightDirectionSprite.next()]
         else:
             if self.direction == -1:
-                img = self.leftDirection.images[0]
+                img = self.leftDirectionSprite.images[0]
             else:
-                img = self.rightDirection.images[0]
+                img = self.rightDirectionSprite.images[0]
         
         img = pygame.transform.scale(img, (32, 32))
         rect = img.get_rect()
@@ -220,7 +220,6 @@ class SecretAgent(object):
             countdown_handler = threading.Thread(target=immortality_countdown, args=(self,))
             countdown_handler.start()
         return True
-
 
 def immortality_countdown(self):
     time.sleep(3)
